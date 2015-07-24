@@ -1,0 +1,15 @@
+{
+  "name": "node-chronos",
+  "version": "0.1.0",
+  "description": "node-chronos is tool for large log analysis.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "^3.10.0",
+    "neo-async": "^1.3.0"
+  }
+}
