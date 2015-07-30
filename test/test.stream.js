@@ -80,4 +80,69 @@ describe('stream', function() {
     });
   });
 
+  describe('#async', function() {
+
+    it('should convert string to object with asynchronous', function(done) {
+
+      var stream = new Stream(filepath);
+      var job = _.first(jobList);
+      var convert = function(line, done) {
+        done(null, JSON.parse(line));
+      };
+
+      stream
+        .async(convert)
+        .get(function(err, result) {
+          if (err) {
+            return done(err);
+          }
+          var data = _.first(result);
+          assert.ok(_.isPlainObject(data));
+          assert.strictEqual(result.length, 10000);
+          done();
+        });
+    });
+  });
+
+  describe('#asyncFilter', function() {
+
+    it('should get filtered list with asynchronous', function(done) {
+
+      var stream = new Stream(filepath);
+      var job = _.first(jobList);
+      var regExp = new RegExp(job);
+      var filter = function(line, done) {
+        done(null, regExp.test(line));
+      };
+
+      stream
+        .asyncFilter(filter)
+        .get(function(err, result) {
+          if (err) {
+            return done(err);
+          }
+          var data = _.first(result);
+          assert.ok(_.isString(data));
+          assert.strictEqual(result.length, 3193);
+          done();
+        });
+    });
+  });
+
+  describe('#import', function() {
+
+    it('should get all log data', function(done) {
+
+      chronos.stream.import(filepath, function(err, result) {
+        if (err) {
+          return done(err);
+        }
+        var data = _.first(result);
+        assert.ok(_.isString(data));
+        assert.strictEqual(result.length, 10000);
+        done();
+      });
+    });
+  });
+
 });
